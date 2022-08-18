@@ -16,13 +16,10 @@ namespace RestfulAPIService.Controllers
     [ApiController]
     public class ArticlesController : Controller
     {
+        #region Fields
         public ObservableCollection<ArticleContext> _context;
+        #endregion
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
 
         #region Methods
         public async Task<List<ArticleContext>> GetArticleFromApiAsync(string uri, List<ArticleContext> actionList)
@@ -98,6 +95,11 @@ namespace RestfulAPIService.Controllers
         #endregion
 
         #region ApiRoutes
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return View();
+        }
         [HttpGet("MinAndMaxPricePerLiter")]
         public async Task<string> MinAndMaxPricePerLiter(bool isMinAndMaxPricePerLiter, string uri)
         {         
