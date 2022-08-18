@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>Api Controller Routes</h2>
+
+
+
+<p><b>Get min and max price per Liter</b></p>
+<form method="get">
+    <div class="form-group">
+        <label for="uri">Uri:</label>
+        <input class="form-control" name="uri" />
+        <label for="isMinAndMaxPricePerLiter">MinMaxPrice:</label>
+        <input checked="checked" id="isActive" name="isMinAndMaxPricePerLiter" type="checkbox" value="true" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" asp-action="MinAndMaxPricePerLiter" class="btn btn-sm btn-primary">Get</button>
+    </div>
+</form>
+<hr>
+<p><b>Get article by price & sort ascending by price per liter</b></p>
+<form method="get">
+    <div class="form-group">
+        <label for="uri">Uri:</label>
+        <input class="form-control" name="uri" />
+        <label for="price">GetbyPrice:</label>
+        <input class="form-control" name="price" />
+        <label for="isSortByAscending">SortByAscending:</label>
+        <input checked="checked" id="isActive" name="isSortByAscending" type="checkbox" value="true" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" asp-action="ByPriceAndSortAscending" class="btn btn-sm btn-primary">Get</button>
+    </div>
+</form>
+<hr>
+<p><b>Get beer with most units</b></p>
+<form method="get">
+    <div class="form-group">
+        <label for="uri">Uri:</label>
+        <input class="form-control" name="uri" />
+        <label for="isMostUnits">MostUnits:</label>
+        <input checked="checked" id="isActive" name="isMostUnits" type="checkbox" value="true" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" asp-action="MostUnits" class="btn btn-sm btn-primary">Get</button>
+    </div>
+</form>
+<hr>
+<p><b>Get All</b></p>
+<form method="get">
+    <div class="form-group">
+        <label for="uri">Uri:</label>
+        <input class="form-control" name="uri" />
+        <label for="price">GetbyPrice:</label>
+        <input class="form-control" name="price" />
+        <label for="isMinAndMaxPricePerLiter">minmaxprice:</label>
+        <input checked="checked" id="isActive" name="isMinAndMaxPricePerLiter" type="checkbox" value="true" />
+        <label for="isMostUnits">MostUnits:</label>
+        <input checked="checked" id="isActive" name="isMostUnits" type="checkbox" value="true" />
+        <label for="isSortByAscending">sortBy:</label>
+        <input checked="checked" id="isActive" name="isSortByAscending" type="checkbox" value="true" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" asp-action="GetAll" class="btn btn-sm btn-primary">Get</button>
+    </div>
+</form>
