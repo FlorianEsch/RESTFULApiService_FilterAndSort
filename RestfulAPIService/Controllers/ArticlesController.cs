@@ -24,7 +24,25 @@ namespace RestfulAPIService.Controllers
             return View();
         }
 
-
+        #region Methods
+        public async Task<List<ArticleContext>> GetArticleFromApiAsync(string uri, List<ArticleContext> actionList)
+        {
+            List<Product> productList = new List<Product>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(uri))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
+                    foreach (var product in productList)
+                    {
+                        foreach (var article in product.articles)
+                            actionList.Add(new ArticleContext(product, article));
+                    }
+                }
+            }
+            return actionList;
+        }
         public List<ArticleContext> GetMinandMaxPrice(List<ArticleContext> actionList)
         {
             var filtertActionList = new List<ArticleContext>();
@@ -44,24 +62,6 @@ namespace RestfulAPIService.Controllers
             foreach (var item in actionList.Where(s => double.Parse(s.pricePerUnitText.Replace("(", "").Replace("€", "").Replace("Liter", "").Replace(")", "").Replace("/", "").Replace(" ", "")) == maxValue).ToList())
                 filtertActionList.Add(item);
             return filtertActionList;
-        }
-        public async Task<List<ArticleContext>> GetArticleFromApiAsync(string uri, List<ArticleContext> actionList)
-        {
-            List<Product> productList = new List<Product>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(uri))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
-                    foreach (var product in productList)
-                    {
-                        foreach (var article in product.articles)
-                            actionList.Add(new ArticleContext(product, article));
-                    }
-                }
-            }
-            return actionList;
         }
         public string SerializeListArticleContext(List<ArticleContext> resultList)
         {
@@ -95,7 +95,9 @@ namespace RestfulAPIService.Controllers
         public string ErrorForUri(){
             return "Uri is Empty. Please fill the Uri";
             }
+        #endregion
 
+        #region ApiRoutes
         [HttpGet("MinAndMaxPricePerLiter")]
         public async Task<string> MinAndMaxPricePerLiter(bool isMinAndMaxPricePerLiter, string uri)
         {         
@@ -164,7 +166,6 @@ namespace RestfulAPIService.Controllers
             return jsonMostUnits + jsonArticleList;
         }
 
-
         [HttpGet("GetAll")]
         public async Task<string> GetAll(double? price, bool isMostUnits, bool isSortByAscending, bool isMinAndMaxPricePerLiter, string uri)
         {
@@ -200,5 +201,6 @@ namespace RestfulAPIService.Controllers
 
             return jsonMinAndMaxPricePerLiter + jsonFindePrice + jsonSortByAscending  + jsonMostUnits;
         }
+        #endregion
     }
 }
