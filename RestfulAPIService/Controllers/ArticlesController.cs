@@ -22,12 +22,12 @@ namespace RestfulAPIService.Controllers
 
 
         #region Methods
-        public async Task<List<ArticleContext>> GetArticleFromApiAsync(string uri, List<ArticleContext> actionList)
+        public async Task<List<ArticleContext>> GetArticleFromApiAsync(string url, List<ArticleContext> actionList)
         {
             List<Product> productList = new List<Product>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(uri))
+                using (var response = await httpClient.GetAsync(url))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     productList = JsonConvert.DeserializeObject<List<Product>>(apiResponse);
@@ -63,6 +63,7 @@ namespace RestfulAPIService.Controllers
         public string SerializeListArticleContext(List<ArticleContext> resultList)
         {
             var opt = new JsonSerializerOptions() { WriteIndented = true };
+            opt.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             string strJson = System.Text.Json.JsonSerializer.Serialize<IList<ArticleContext>>(resultList, opt);
             return strJson;
         }
@@ -89,26 +90,26 @@ namespace RestfulAPIService.Controllers
                 filtertActionList.Add(item);
             return filtertActionList;
         }
-        public string ErrorForUri(){
-            return "Uri is Empty. Please fill the Uri";
+        public string ErrorForUrl(){
+            return "Url is empty or wrong. Please fill the right Url!";
             }
         #endregion
 
         #region ApiRoutes
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
         [HttpGet("MinAndMaxPricePerLiter")]
-        public async Task<string> MinAndMaxPricePerLiter(bool isMinAndMaxPricePerLiter, string uri)
+        public async Task<string> MinAndMaxPricePerLiter(bool isMinAndMaxPricePerLiter, string url)
         {         
             List<ArticleContext> actionList = new List<ArticleContext>();
             string jsonMinAndMaxPricePerLiter = String.Empty;
             string jsonArticleList = String.Empty;
-            if (String.IsNullOrEmpty(uri))
-                return ErrorForUri();
-            await GetArticleFromApiAsync(uri, actionList);
+            if (String.IsNullOrEmpty(url))
+                return ErrorForUrl();
+            await GetArticleFromApiAsync(url, actionList);
 
             if (isMinAndMaxPricePerLiter)
             {
@@ -122,15 +123,15 @@ namespace RestfulAPIService.Controllers
         }
 
         [HttpGet("ByPriceAndSortAscending")]
-        public async Task<string> ByPriceAndSortAscending(bool isSortByAscending, double? price, string uri)
+        public async Task<string> ByPriceAndSortAscending(bool isSortByAscending, double? price, string url)
         {
             List<ArticleContext> actionList = new List<ArticleContext>();
             string jsonSortByAscending = String.Empty;
             string jsonFindePrice = String.Empty;
             string jsonArticleList = String.Empty;
-            if (String.IsNullOrEmpty(uri))
-                return ErrorForUri();
-            await GetArticleFromApiAsync(uri, actionList);
+            if (String.IsNullOrEmpty(url))
+                return ErrorForUrl();
+            await GetArticleFromApiAsync(url, actionList);
             if (price != null && price != 0)
             {
                 var resultList = FindePrice(price, actionList);
@@ -148,14 +149,14 @@ namespace RestfulAPIService.Controllers
         }
 
         [HttpGet("MostUnits")]
-        public async Task<string> MostUnits(bool isMostUnits, string uri)
+        public async Task<string> MostUnits(bool isMostUnits, string url)
         {
             List<ArticleContext> actionList = new List<ArticleContext>();
             string jsonMostUnits = String.Empty;
             string jsonArticleList = String.Empty;
-            if (String.IsNullOrEmpty(uri))
-                return ErrorForUri();
-            await GetArticleFromApiAsync(uri, actionList);
+            if (String.IsNullOrEmpty(url))
+                return ErrorForUrl();
+            await GetArticleFromApiAsync(url, actionList);
 
             if (isMostUnits)
             {
@@ -169,16 +170,16 @@ namespace RestfulAPIService.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<string> GetAll(double? price, bool isMostUnits, bool isSortByAscending, bool isMinAndMaxPricePerLiter, string uri)
+        public async Task<string> GetAll(double? price, bool isMostUnits, bool isSortByAscending, bool isMinAndMaxPricePerLiter, string url)
         {
             List<ArticleContext> actionList = new List<ArticleContext>();
             string jsonSortByAscending = String.Empty;
             string jsonMostUnits = String.Empty;
             string jsonFindePrice = String.Empty;
             string jsonMinAndMaxPricePerLiter = String.Empty;
-            if (String.IsNullOrEmpty(uri))
-                return ErrorForUri();
-            await GetArticleFromApiAsync(uri, actionList);
+            if (String.IsNullOrEmpty(url))
+                return ErrorForUrl();
+            await GetArticleFromApiAsync(url, actionList);
             if (isMinAndMaxPricePerLiter)
             {
                 var resultList = GetMinandMaxPrice(actionList);
