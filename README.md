@@ -5,10 +5,10 @@ the Uri I used: https://flapotest.blob.core.windows.net/test/ProductData.json
 We have four different API routes():
 
 
-/Articles/MinAndMaxPricePerLiter?uri=&isMinAndMaxPricePerLiter=true
-/Articles/ByPriceAndSortAscending?uri=&price=17.99&isSortByAscending=true   
-/Articles/MostUnits?uri=&isMostUnits=true
-/Articles/GetAll?uri=&price=17.99&isMinAndMaxPricePerLiter=true&isMostUnits=true&isSortByAscending=true
+/Articles/MinAndMaxPricePerLiter?url=&isMinAndMaxPricePerLiter=true
+/Articles/ByPriceAndSortAscending?url=&price=17.99&isSortByAscending=true   
+/Articles/MostUnits?url=&isMostUnits=true
+/Articles/GetAll?url=&price=17.99&isMinAndMaxPricePerLiter=true&isMostUnits=true&isSortByAscending=true
 
 
 The Api is Deserializing a List<Product> 
