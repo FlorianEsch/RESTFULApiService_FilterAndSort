@@ -1,6 +1,6 @@
 # RESTFULApiService_flaschenpost
 
-the Uri I used: https://flapotest.blob.core.windows.net/test/ProductData.json
+the Url I used: https://flapotest.blob.core.windows.net/test/ProductData.json
 
 We have four different API routes():
 
